@@ -40,5 +40,8 @@ public class Teste {
             Personagem atual = iniciativa.proximo();
             System.out.println("Personagem atual: " + atual.getNome());
         }
+
+        //testes da classe Interpretador()
+        Interpretador interpretador = new Interpretador("ajuda");
     }
 }

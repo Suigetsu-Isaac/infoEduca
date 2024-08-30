@@ -1,58 +1,30 @@
 package drafeon.habilidades;
 
-import java.util.ArrayList;
 import drafeon.Personagem;
 
 public class EspadaLonga {
-    private int HP;
-    private int ATK;
-    private int DEF;
-    private ArrayList<Personagem> alvos;
-
-    public EspadaLonga(int HP, int ATK, int DEF) {
-        this.HP = HP;
-        this.ATK = ATK;
-        this.DEF = DEF;
-        this.alvos = new ArrayList<>(8); // Inicializa o ArrayList com capacidade para 8 personagens
+    
+    private String cortelaminaraNome = "Corte Lâminar";
+    private String cortelaminaraDescricao = "Desfere um poderoso ataque cortante em um alvo, causando " + ATK + "de dano. Custo: 1 de ataque";
+    
+    public EspadaLonga(){
+    
     }
-
-    public int getHP() {
-        return HP;
-    }
-
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
-    public int getATK() {
-        return ATK;
-    }
-
-    public void setATK(int ATK) {
-        this.ATK = ATK;
-    }
-
-    public int getDEF() {
-        return DEF;
-    }
-
-    public void setDEF(int DEF) {
-        this.DEF = DEF;
-    }
-
-    public ArrayList<Personagem> getAlvos() {
-        return alvos;
-    }
-
-    public void adicionarAlvo(Personagem personagem) {
-        if (alvos.size() < 8) {
-            alvos.add(personagem);
-            System.out.println(personagem.getNome() + " foi adicionado à Espada Longa.");
-        } else {
-            System.out.println("A Espada Longa já possui 8 alvos. Não é possível adicionar mais.");
+    
+    public String cortelaminar(Personagem alvo, int ATK){
+        String mensagem = "algo deu errado";
+        if (alvo.getDEF() >= 1) {
+            alvo.setDEF(alvo.getDEF() - ATK);
+            if (alvo.getDEF() < 0) {
+                alvo.setHP(alvo.getHP() - 1);
+                alvo.setDEF(0);
+                mensagem = alvo.getNome() + " é acertado, recebendo " + 1 + " de dano ao seu HP";
+            }
+            mensagem = alvo.getNome() + " bloqueia gastando " + ATK + " de defesa";
+        } else if (alvo.getDEF() <= 0) {
+            alvo.setHP(alvo.getHP() - 1);
+            System.out.println(alvo.getNome() + " é acertado, recebendo " + 1 + " de dano \n");
         }
+    return mensagem;
     }
-    public void corte(){
-        
     }
-}

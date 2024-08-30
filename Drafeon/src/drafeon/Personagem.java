@@ -5,11 +5,17 @@ import java.util.Scanner;
 
 public class Personagem {
     private String nome;
+    // Vida Atual
     private int HP;
+    //Defesa Atual
     private int DEF;
+    //Ataque Atual
     private int ATK;  
+    // Vida Total
     private int totalHP;
+    // Defesa Total
     private int totalDEF;
+    // Ataque Total
     private int TotalATK;
     
     public Personagem(String nome, int HP, int DEF, int ATK){
@@ -35,7 +41,8 @@ public class Personagem {
     }
 
     public void setHP(int HP) {
-        this.HP = HP;
+       this.HP = verificaSetagem(HP);
+         
     }
 
     public int getDEF() {
@@ -43,7 +50,8 @@ public class Personagem {
     }
 
     public void setDEF(int DEF) {
-        this.DEF = DEF;
+        
+        this.DEF = verificaSetagem(DEF);
     }
 
     public int getATK() {
@@ -51,9 +59,19 @@ public class Personagem {
     }
 
     public void setATK(int ATK) {
-        this.ATK = ATK;
+        this.ATK = verificaSetagem(ATK);
     }
     
+    public int verificaSetagem(int valor){
+        if (valor > 3){
+            valor = 3;
+        }else if (valor < 0){
+            valor = 0;
+        }
+        return valor;
+    }
+    
+    //método demonstrativo para ser retirado.
     public void atacar(ArrayList<Personagem> personagens) {
         Scanner scanner = new Scanner(System.in);
 
@@ -81,5 +99,8 @@ public class Personagem {
     
     public void mostrarStatus() {
         System.out.println(nome + ": HP - " + HP + ", Defesa - " + DEF + ", Ataque - " + ATK + "\n");
+    }
+    public void MostrarHabilidades() {
+        
     }
 }
