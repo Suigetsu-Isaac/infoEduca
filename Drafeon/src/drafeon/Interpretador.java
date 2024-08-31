@@ -1,5 +1,7 @@
 package drafeon;
 
+import java.util.ArrayList;
+
 public class Interpretador {
 
     // Método que processa a string
@@ -8,6 +10,7 @@ public class Interpretador {
         String palavra2 = "";
         String palavra3 = "";
         int quantidadeDePalavras = 0;
+        Personagem objPersonagem;
 
         //verificar quantos espaos vazios tem no input para definir quantidade de palavras através de um if
         // Remove espaços em excesso e divide a string por espaços e vírgulas
@@ -47,11 +50,19 @@ public class Interpretador {
             //mensagem de erro
         }
     }
-
-    public void retornaAlvo(String alvo) {
+    //Método que verifica se o alvo é válido o e retorna:
+    public void verificarPersonagem(String alvo, ArrayList<Personagem> personagens) {
         //tri catchs que verificam se um alvo é válido
-        //retorna o alvo
+    for (Personagem personagem : personagens){
+    if (personagem.getNome().equalsIgnoreCase(alvo)) {
+         objPersonagem = personagem;
     }
+        
+        }
+    
+    }
+
+    //a seguir, método chamados por uma só palavra:
 
     public String ajuda() {
         return "texto de ajuda";
@@ -66,6 +77,5 @@ public class Interpretador {
     public String verStatus(){
         return "adicionar retorno";
     }
-
 
     }

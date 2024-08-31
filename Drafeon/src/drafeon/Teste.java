@@ -43,5 +43,6 @@ public class Teste {
 
         //testes da classe Interpretador()
         Interpretador interpretador = new Interpretador("ajuda");
+        interpretador.verificarPersonagem("guerreiro", campo.getAliados());
     }
 }
