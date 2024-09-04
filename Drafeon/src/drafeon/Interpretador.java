@@ -43,24 +43,46 @@ public class Interpretador {
             }
 
         } else if (quantidadeDePalavras == 2) {
+
             //chama todos os métodos chamados por uma palavra
         } else if (quantidadeDePalavras == 3) {
+            if (palavra1 == )
+            
             //chama todos os métodos chamados por uma palavra
         } else {
             //mensagem de erro
         }
     }
     //Método que verifica se o alvo é válido o e retorna:
-    public void verificarPersonagem(String alvo, ArrayList<Personagem> personagens) {
+    public Object verificarPersonagem(String alvo, ArrayList<Personagem> personagens) {
         //tri catchs que verificam se um alvo é válido
     for (Personagem personagem : personagens){
     if (personagem.getNome().equalsIgnoreCase(alvo)) {
-         objPersonagem = personagem;
-    }
+         return personagem;//.getNome();
+         
+            }
         
         }
-    
+    return "ERROR";
     }
+
+    public String cortelaminar(String alvo, String agente, ArrayList personagens){
+        Object resposta1;
+        Object resposta2;
+        resposta1 = verificarPersonagem(alvo, personagens);
+        resposta2 = verificarPersonagem(agente, personagens);
+
+        //verifica se
+        return "foi deu certo"; 
+    }
+
+
+public String verificarAcao(String acao){
+if (true) {
+    
+}
+return "ERROR!";
+}
 
     //a seguir, método chamados por uma só palavra:
 

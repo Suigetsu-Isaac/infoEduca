@@ -13,15 +13,14 @@ public class Jogo extends JFrame {
     private JLabel textoCreditos;
 
     public Jogo() {
-        // Carregar e registrar a fonte personalizada
+         // Carregar e registrar a fonte personalizada
         carregarFontePersonalizada();
 
         // Configurações da janela
         setTitle("JOGO");
-        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
+        
+        setSize(400, 350);
         // Usando CardLayout para gerenciar múltiplas telas
         cardLayout = new CardLayout();
         setLayout(cardLayout);
@@ -71,7 +70,7 @@ public class Jogo extends JFrame {
 
         // Adicionando o texto de créditos
         textoCreditos = new JLabel("", SwingConstants.CENTER);
-        textoCreditos.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16)); // Aplica a fonte personalizada
+        textoCreditos.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16)); // Aplica a fonte personalizada inicialmente
         textoCreditos.setForeground(Color.WHITE);
         painelCreditos.add(textoCreditos, BorderLayout.CENTER);
 
@@ -100,7 +99,9 @@ public class Jogo extends JFrame {
         cardLayout.show(getContentPane(), "Creditos");
 
         // Primeiro texto
-        textoCreditos.setText("<html><p style='text-align:center;'>Este jogo foi desenvolvido para a disciplina de Informática na Educação do curso de Sistemas para Internet do IF Sertão Campus Salgueiro.</p></html>");
+        textoCreditos.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16)); // Aplica a fonte personalizada inicialmente
+       
+        textoCreditos.setText("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center; '>Este jogo foi desenvolvido para a disciplina de Informática na Educação do curso de Sistemas para Internet do IF Sertão Campus Salgueiro.</p></div></html>");
 
         new SwingWorker<Void, Void>() {
             @Override
@@ -111,13 +112,63 @@ public class Jogo extends JFrame {
                     SwingUtilities.invokeLater(() -> painelCreditos.setForeground(new Color(0, 0, 0, alpha)));
                     Thread.sleep(20);
                 }
-                textoCreditos.setText("<html><p style='text-align:center;'>Desenvolvido por Helder Manoel Sobreira Dos Santos, Walla Nascimento de Sousa, Daniel Antônio Da Silva e Isaac Antonio Alves Souza</p></html>");
+                textoCreditos.setText("<html><p style='text-align:center; margin: 0 auto;'>Desenvolvido por Helder Manoel Sobreira Dos Santos, Walla Nascimento de Sousa, Daniel Antônio Da Silva e Isaac Antonio Alves Souza</p></html>");
                 for (int i = 0; i <= 100; i++) {
                     final float alpha = i / 100f;
                     SwingUtilities.invokeLater(() -> painelCreditos.setForeground(new Color(0, 0, 0, alpha)));
                     Thread.sleep(20);
                 }
                 Thread.sleep(3000); // Espera mais 3 segundos
+                for (int i = 0; i <= 100; i++) {
+                    final float alpha = i / 100f;
+                    SwingUtilities.invokeLater(() -> painelCreditos.setForeground(new Color(0, 0, 0, alpha)));
+                    Thread.sleep(20);
+                }
+                textoCreditos.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.PLAIN, 5)); // Aplica a fonte personalizada inicialmente
+       
+                textoCreditos.setText("<html><pre>                                                                                     \n" +
+"                                              MMMMMMMMMMMM    mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            MMMMMMMMMMMMMMMM  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            MMMMMMMMMMMMMMMM  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            MMMMMMMMMMMMMMMM  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            MMMMMMMMMMMMMMMM  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            MMMMMMMMMMMMMMMM  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                              MMMMMMMMMMMM    mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                                ..MMMM--                                                                                    \n" +
+"                                                                                                                                            \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            ..------------      --------------                                                              \n" +
+"                                                                                                                                            \n" +
+"                                            mmmmmmmmmmmmmmmm  --mmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmmmm                                          \n" +
+"                                            mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmm    mmmmmmmmmmmmmm--                                          \n" +
+"                                                                                                                                            \n" +
+"                                            mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm  mmmmmmmmmmmmmmmm                                                              \n" +
+"                                            mmmmmmmmmmmmmmmm    mmmmmmmmmmmmmm"
+                        + "</pre></html>");
+                for (int i = 0; i <= 100; i++) {
+                    final float alpha = i / 100f;
+                    SwingUtilities.invokeLater(() -> painelCreditos.setForeground(new Color(0, 0, 0, alpha)));
+                    Thread.sleep(20);
+                }
+                Thread.sleep(1500); // Espera mais 3 segundos
                 return null;
             }
 

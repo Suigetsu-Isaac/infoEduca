@@ -17,6 +17,10 @@ public class Personagem {
     private int totalDEF;
     // Ataque Total
     private int TotalATK;
+
+
+    //lista de stings com o nome de três habilidades
+    private ArrayList<String> habilidades; 
     
     public Personagem(String nome, int HP, int DEF, int ATK){
         this.nome = nome;
@@ -27,6 +31,14 @@ public class Personagem {
         this.TotalATK = ATK;
         this.totalDEF = DEF;
     }
+
+    public void adicionarHabilidade(String habilidade){
+        if (this.habilidades.size() < 3)
+         this.habilidades.add(habilidade);
+    }
+   public String retornaHabilidade(int indice){
+        return this.habilidades.get(indice);
+   }
 
     public String getNome() {
         return nome;

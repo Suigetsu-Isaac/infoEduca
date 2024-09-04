@@ -34,15 +34,9 @@ public class Teste {
         Iniciativa iniciativa = new Iniciativa(campo.getAliados(), campo.getInimigos());
         iniciativa.mostrarOrdem();
 
-        // Mostrando o nome de 8 personagens através da variável "indiceAtual"
-        System.out.println("\nSimulando a ordem de iniciativa:");
-        for (int i = 0; i < 8; i++) {
-            Personagem atual = iniciativa.proximo();
-            System.out.println("Personagem atual: " + atual.getNome());
-        }
-
         //testes da classe Interpretador()
-        Interpretador interpretador = new Interpretador("ajuda");
-        interpretador.verificarPersonagem("guerreiro", campo.getAliados());
+        Interpretador interpretador = new Interpretador("guerreiro");
+        System.out.println(interpretador.verificarPersonagem("guerreiro", campo.getAliados()));
+        //System.out.println(interpretador.verificarAcao("asfdasf"));
     }
 }

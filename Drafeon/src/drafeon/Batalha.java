@@ -9,6 +9,9 @@ public class Batalha {
     public Batalha(CampoDeBatalha campo) {
         this.campo = campo;
         this.iniciativa = new Iniciativa(campo.getAliados(), campo.getInimigos());
+
+        //instancia a classe campo de batalha (grupo de 3 aliádos e 3 inimigos)
+        //instancia a classe iniciativa (ordem dos turnos)
     }
 
     public void iniciar() {
@@ -60,27 +63,24 @@ public class Batalha {
         CampoDeBatalha campo = new CampoDeBatalha();
 
         // Criando 8 personagens
-        Personagem p1 = new Personagem("Guerreiro", 100, 50, 30);
-        Personagem p2 = new Personagem("Arqueiro", 80, 40, 25);
-        Personagem p3 = new Personagem("Mago", 70, 30, 35);
-        Personagem p4 = new Personagem("Cavaleiro", 120, 60, 20);
-        Personagem p5 = new Personagem("Assassino", 90, 45, 40);
-        Personagem p6 = new Personagem("Clérigo", 85, 35, 15);
-        Personagem p7 = new Personagem("Bárbaro", 110, 55, 25);
-        Personagem p8 = new Personagem("Paladino", 95, 50, 30);
+        Personagem p1 = new Personagem("Guerreiro", 3, 50, 30);
+        Personagem p2 = new Personagem("Arqueiro", 2, 40, 25);
+        Personagem p3 = new Personagem("Mago", 2, 30, 35);
+        Personagem p4 = new Personagem("Cavaleiro", 3, 60, 20);
+        Personagem p5 = new Personagem("Assassino", 3, 45, 40);
+        Personagem p6 = new Personagem("Clérigo", 3, 35, 15);
+        
 
-        // Adicionando 4 personagens aos aliados
+        // Adicionando 3 personagens aos aliados
         campo.inserirAliado(p1);
         campo.inserirAliado(p2);
         campo.inserirAliado(p3);
-        campo.inserirAliado(p4);
-
-        // Adicionando 4 personagens aos inimigos
+        
+        // Adicionando 3 personagens aos inimigos
+        campo.inserirInimigo(p4);
         campo.inserirInimigo(p5);
         campo.inserirInimigo(p6);
-        campo.inserirInimigo(p7);
-        campo.inserirInimigo(p8);
-
+        
         // Iniciando a batalha
         Batalha batalha = new Batalha(campo);
         batalha.iniciar();
