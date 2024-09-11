@@ -17,6 +17,8 @@ public class Personagem {
     private int totalDEF;
     // Ataque Total
     private int TotalATK;
+    // Define se o personagem é ou não jogável
+    private boolean ehInimigo;
 
     //lista de stings com o nome de três habilidades
     private ArrayList<String> habilidades; 
@@ -124,4 +126,5 @@ public class Personagem {
     public void MostrarHabilidades() {
         
     }
+    
 }

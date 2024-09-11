@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class IaDoInimigo {
 
     public IaDoInimigo(Personagem agente){
-
+        String acao = escolheAcao(agente);
     }    
 
     public Personagem escolheAlvo(ArrayList<Personagem> alvos){
@@ -20,7 +20,6 @@ public class IaDoInimigo {
         ArrayList<String> habilidades;
         habilidades = agente.getHabilidades();               
         return "retorno";
-    
     }
 
 }

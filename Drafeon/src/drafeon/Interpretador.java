@@ -72,6 +72,25 @@ public class Interpretador {
         }
         return "ERROR";
     }
+   //tirar essa negócio de estático 
+   public static Personagem buscarPersonagemPorNome(CampoDeBatalha campoDeBatalha, String nome) {
+        // Verificar nos aliados
+        for (Personagem aliado : campoDeBatalha.getAliados()) {
+            if (aliado.getNome().equalsIgnoreCase(nome)) {
+                return aliado;
+            }
+        }
+        
+        // Verificar nos inimigos
+        for (Personagem inimigo : campoDeBatalha.getInimigos()) {
+            if (inimigo.getNome().equalsIgnoreCase(nome)) {
+                return inimigo;
+            }
+        }
+        
+        // Se não encontrar nenhum personagem com o nome especificado
+        return null;
+    }
 
     public String listarHabilidades(Personagem agente) {
         String mensagem;
@@ -80,21 +99,8 @@ public class Interpretador {
         return mensagem;
     }
 
-    public String chamacortelaminar(String alvo, String agente, ArrayList habilidades) {
-
-        // resposta1 = verificarPersonagem(alvo, personagens);
-        for (Personagem personagem : personagens) {
-            if (personagem.getNome().equalsIgnoreCase(alvo)) {
-                Object resposta1 = 0;
-                resposta1 = alvo;
-
-            } else if (personagem.getNome().equalsIgnoreCase(agente)) {
-                Object resposta2 = personagem;
-                Habilidades corte = new Habilidades();
-                corte.cortelaminar(resposta2, resposta2);
-            }
-
-        }
+    public String chamacortelaminar(String alvo, String agente, String acao) {
+        
 
         //verifica se
         return "foi deu certo";
@@ -106,6 +112,18 @@ public class Interpretador {
         }
         return "ERROR!";
     }
+
+    public boolean verificaHabilidade(Personagem agente, String habilidadeDesejada) {
+    ArrayList<String> habilidades = agente.getHabilidades();
+
+    for (String habilidade : habilidades) {
+        if (habilidade.equalsIgnoreCase(habilidadeDesejada)) {
+            return true;
+        }
+    }
+        return false; // Se chegou até aqui, a habilidade não foi encontrada
+    }
+
 
     //a seguir, método chamados por uma só palavra:
     public String ajuda() {
