@@ -36,7 +36,13 @@ public class Teste {
 
         //testes da classe Interpretador()
         Interpretador interpretador = new Interpretador("guerreiro");
-        System.out.println(interpretador.verificarPersonagem("guerreiro", campo.getAliados()));
+        //System.out.println(interpretador.verificarPersonagem("guerreiro", campo.getAliados()));
         //System.out.println(interpretador.verificarAcao("asfdasf"));
+        
+        p1.adicionarHabilidade("cortelaminar");
+        p1.adicionarHabilidade("cortelaminar");
+        p1.adicionarHabilidade("cortelaminar");
+        
+        System.out.println(interpretador.listarHabilidades(p1));
     }
 }

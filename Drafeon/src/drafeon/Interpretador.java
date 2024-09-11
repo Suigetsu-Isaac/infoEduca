@@ -44,48 +44,70 @@ public class Interpretador {
 
         } else if (quantidadeDePalavras == 2) {
 
-            //chama todos os métodos chamados por uma palavra
+            //chama todos os métodos chamados por duas palavras
         } else if (quantidadeDePalavras == 3) {
-            if (palavra1 == )
-            
+            if (palavra1 == "listar") {
+                //Object resposta = verificarPersonagem(palavra2,);
+                //if ("" == ""){
+
+                //}
+                //return listarHabilidades(personagem da palavra2);
+            }
+
             //chama todos os métodos chamados por uma palavra
         } else {
             //mensagem de erro
         }
     }
+
     //Método que verifica se o alvo é válido o e retorna:
     public Object verificarPersonagem(String alvo, ArrayList<Personagem> personagens) {
         //tri catchs que verificam se um alvo é válido
-    for (Personagem personagem : personagens){
-    if (personagem.getNome().equalsIgnoreCase(alvo)) {
-         return personagem;//.getNome();
-         
+        for (Personagem personagem : personagens) {
+            if (personagem.getNome().equalsIgnoreCase(alvo)) {
+                return personagem;//.getNome();
+
             }
-        
+
         }
-    return "ERROR";
+        return "ERROR";
     }
 
-    public String cortelaminar(String alvo, String agente, ArrayList personagens){
-        Object resposta1;
-        Object resposta2;
-        resposta1 = verificarPersonagem(alvo, personagens);
-        resposta2 = verificarPersonagem(agente, personagens);
+    public String listarHabilidades(Personagem agente) {
+        String mensagem;
+        mensagem = "habilidade 1: " + agente.retornaHabilidade(0) + "\nhabilidade 2: " + agente.retornaHabilidade(1) + "\nhabilidade 3: " + agente.retornaHabilidade(2);
+
+        return mensagem;
+    }
+
+    public String chamacortelaminar(String alvo, String agente, ArrayList habilidades) {
+
+        // resposta1 = verificarPersonagem(alvo, personagens);
+        for (Personagem personagem : personagens) {
+            if (personagem.getNome().equalsIgnoreCase(alvo)) {
+                Object resposta1 = 0;
+                resposta1 = alvo;
+
+            } else if (personagem.getNome().equalsIgnoreCase(agente)) {
+                Object resposta2 = personagem;
+                Habilidades corte = new Habilidades();
+                corte.cortelaminar(resposta2, resposta2);
+            }
+
+        }
 
         //verifica se
-        return "foi deu certo"; 
+        return "foi deu certo";
     }
 
+    public String verificarAcao(String acao) {
+        if (true) {
 
-public String verificarAcao(String acao){
-if (true) {
-    
-}
-return "ERROR!";
-}
+        }
+        return "ERROR!";
+    }
 
     //a seguir, método chamados por uma só palavra:
-
     public String ajuda() {
         return "texto de ajuda";
     }
@@ -96,8 +118,8 @@ return "ERROR!";
         return "Saindo";
     }
 
-    public String verStatus(){
+    public String verStatus() {
         return "adicionar retorno";
     }
 
-    }
+}
