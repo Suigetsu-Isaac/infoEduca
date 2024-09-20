@@ -4,27 +4,43 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Iniciativa {
-    private ArrayList<Personagem> ordem;
-    private int indiceAtual;
+    private static ArrayList<Personagem> ordem = new ArrayList<>(); 
+    private static int indiceAtual;
 
-    public Iniciativa(ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
-        this.ordem = new ArrayList<>();
-        this.ordem.addAll(aliados);
-        this.ordem.addAll(inimigos);
-        Collections.shuffle(this.ordem); // Embaralha a lista para uma ordem aleatória
-        this.indiceAtual = 0;
+    public Iniciativa() {
+      
+        Iniciativa.ordem.addAll(CampoDeBatalha.getAliados());
+        Iniciativa.ordem.addAll(CampoDeBatalha.getInimigos());
+        Collections.shuffle(Iniciativa.ordem); // Embaralha a lista para uma ordem aleatória
+        Iniciativa.indiceAtual = 0;
     }
 
-    public Personagem getAtual() {
+    public static ArrayList<Personagem> getOrdem(){
+        return ordem;
+    }
+    public static void setOrdem(){
+        Iniciativa.ordem.addAll(CampoDeBatalha.getAliados());
+        Iniciativa.ordem.addAll(CampoDeBatalha.getInimigos());
+        Collections.shuffle(Iniciativa.ordem); // Embaralha a lista para uma ordem aleatória
+        Iniciativa.indiceAtual = 0;
+    }
+
+    public static void removePersonagem(Personagem personagem){
+
+        Iniciativa.getOrdem().remove(personagem);
+    }
+
+
+    public static Personagem getAtual() {
         return ordem.get(indiceAtual);
     }
 
-    public Personagem proximo() {
+    public static Personagem proximo() {
         indiceAtual = (indiceAtual + 1) % ordem.size();
         return ordem.get(indiceAtual);
     }
 
-    public void mostrarOrdem() {
+    public static void mostrarOrdem() {
         System.out.println("Ordem de iniciativa:");
         for (Personagem p : ordem) {
             System.out.println(p.getNome());

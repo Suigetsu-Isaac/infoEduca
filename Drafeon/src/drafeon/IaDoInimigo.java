@@ -6,20 +6,42 @@ import java.util.Random;
 
 public class IaDoInimigo {
     private Random r=new Random();
-    public IaDoInimigo(Personagem agente, CampoDeBatalha campo){
+    private String mensagem;
+    public IaDoInimigo(Personagem agente){
         String acao = escolheAcao(agente);
         
-        if (acao.equals("cortelaminar")){
-            Personagem alvo = escolheAlvo(campo.getAliados());
-            String v = Habilidades.cortelaminar(agente,alvo);
-            System.out.println(v);
+        if (acao.equals("corteLaminar")){
+            Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
+            this.mensagem =  Habilidades.corteLaminar(agente,alvo);
+           
             
         }else if (acao.equals("recuperacao")){
-            Personagem alvo = escolheAlvo(campo.getInimigos());
-            String v = Habilidades.recuperacao(agente, alvo);
-            System.out.println(v);
-        }else {
-            System.err.println("error");
+            Personagem alvo = escolheAlvo(CampoDeBatalha.getInimigos());
+            this.mensagem =  Habilidades.recuperacao(agente, alvo);
+           
+        } else if (acao.equals("corteBrutal")){
+            Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
+            this.mensagem =  Habilidades.ataqueBrutal(agente, alvo);
+          
+        }
+            else if (acao.equals("boladefogo")){
+                
+                this.mensagem =  Habilidades.bolaDeFogo(agente, CampoDeBatalha.getAliados());
+                
+            }
+            else if (acao.equals("drenarataque")){
+                Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
+                this.mensagem =  Habilidades.drenarAtaque(agente, alvo);
+             
+            }
+            else if (acao.equals("fortificar")){
+                Personagem alvo = escolheAlvo(CampoDeBatalha.getInimigos());
+                this.mensagem = Habilidades.fortificar(agente, alvo);
+               
+            }
+        
+        else {
+            this.mensagem = "error";
         }
    }    
 
@@ -33,47 +55,31 @@ public class IaDoInimigo {
     public String escolheAcao(Personagem agente){
         ArrayList<String> habilidades;
         habilidades = agente.getHabilidades();
-        
         int i= r.nextInt(habilidades.size());
         
         return habilidades.get(i);
     }
-    
+    public String getMensagem(){
+        return this.mensagem;
+    }
     public  static void  main(String args[]){
-        
-        CampoDeBatalha campo = new CampoDeBatalha();
-
         // Criando 8 personagens
         Personagem p1 = new Personagem("Guerreiro", 100, 50, 30);
         Personagem p2 = new Personagem("Arqueiro", 80, 40, 25);
         Personagem p3 = new Personagem("Mago", 70, 30, 35);
         
-        Personagem p5 = new Personagem("Assassino", 90, 45, 40);
-        Personagem p6 = new Personagem("Clérigo", 85, 35, 15);
-        Personagem p7 = new Personagem("Bárbaro", 110, 55, 25);
+        Personagem p4 = new Personagem("Assassino", 90, 45, 40);
+        Personagem p5 = new Personagem("Clérigo", 85, 35, 15);
+        Personagem p6 = new Personagem("Bárbaro", 110, 55, 25);
         
-
-        // Adicionando 4 personagens aos aliados
-        campo.inserirAliado(p1);
-        campo.inserirAliado(p2);
-        campo.inserirAliado(p3);
- 
-  
-
-        // Adicionando 4 personagens aos inimigos
-        campo.inserirInimigo(p5);
-        campo.inserirInimigo(p6);
-        campo.inserirInimigo(p7);
-
-
-        // Mostrando os nomes dos personagens no campo de batalha
-        campo.mostrarAliados();
-        campo.mostrarInimigos();
+        
+        CampoDeBatalha campo = new CampoDeBatalha(p1, p2, p3, p4, p5, p6);
 
         p1.adicionarHabilidade("cortelaminar");
         p1.adicionarHabilidade("recuperacao");
+        p1.adicionarHabilidade("boladefogo");
         
-        IaDoInimigo ia = new IaDoInimigo(p1, campo);
+        IaDoInimigo ia = new IaDoInimigo(p1);
         
          
         

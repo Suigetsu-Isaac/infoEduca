@@ -23,7 +23,7 @@ public class Personagem {
     //lista de stings com o nome de três habilidadess
     private ArrayList<String> habilidades; 
     
-    public Personagem(String nome, int HP, int DEF, int ATK){
+    public Personagem(String nome, int HP, int ATK, int DEF){
         this.nome = nome;
         this.HP = HP;
         this.ATK = ATK;
@@ -49,6 +49,15 @@ public class Personagem {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean getEhInimigo() {
+        return ehInimigo;
+    }
+
+    public void setEhInimigo(boolean ehInimigo) {
+       this.ehInimigo = ehInimigo;
+         
     }
 
     public int getHP() {

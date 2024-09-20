@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Interpretador {
     String mensagem = "000";
     // Método que processa a string
-    public Interpretador(String input, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+    public Interpretador(String input) {
         String palavra1 = "";
         String palavra2 = "";
         String palavra3 = "";
@@ -38,24 +38,32 @@ public class Interpretador {
         //designa ação baseada no comando passado pelo jogador
         if (quantidadeDePalavras == 1) {
             //chama todos os métodos chamados por uma palavra
-            if (palavra1 == "ajuda" || palavra1 == "help") {
+            if (palavra1.equalsIgnoreCase("ajuda") || palavra1.equalsIgnoreCase("help")) {
                 ajuda();
             }
 
         } else if (quantidadeDePalavras == 2) {
 if (palavra2.equalsIgnoreCase("boladefogo")){
-    this.mensagem = chamaBoladefogo(palavra1, palavra2, aliados, inimigos);
+    this.mensagem = chamaBoladefogo(palavra1, palavra2);
 }
             //chama todos os métodos chamados por três palavras
         } else if (quantidadeDePalavras == 3) {
             if (palavra2.equalsIgnoreCase("cortelaminar")) {
-                this.mensagem = chamaCorteLaminar(palavra1, palavra3, palavra2, aliados, inimigos);
+                this.mensagem = chamaCorteLaminar(palavra1, palavra3, palavra2);
             
             }else if (palavra2.equalsIgnoreCase("recuperacao")) {
-                this.mensagem = chamaRecuperacao(palavra1, palavra3, palavra2, aliados, inimigos);
+                this.mensagem = chamaRecuperacao(palavra1, palavra3, palavra2);
             
 
-        } else {
+        } else if (palavra2.equalsIgnoreCase("ataquebrutal")){
+                this.mensagem = chamaAtaquebrutal(palavra1, palavra3, palavra2);
+        } else if (palavra2.equalsIgnoreCase("fortificar")) {
+                this.mensagem = chamaFortificar(palavra1, palavra3, palavra2);
+        }
+        else if (palavra2.equalsIgnoreCase("drenarataque")){
+                this.mensagem = chamaDrenarAtaque(palavra1, palavra3, palavra2);
+        }
+         else {
             this.mensagem = "deu ruim";
         }
     }
@@ -70,24 +78,24 @@ if (palavra2.equalsIgnoreCase("boladefogo")){
         //tri catchs que verificam se um alvo é válido
         for (Personagem personagem : personagens) {
             if (personagem.getNome().equalsIgnoreCase(alvo)) {
+                System.out.println("personagem: "+personagem.getNome());
                 return personagem;//.getNome();
-
             }
 
         }
         return "ERROR";
     }
    //tirar essa negócio de estático 
-   public static Personagem buscarPersonagemPorNome(CampoDeBatalha campoDeBatalha, String nome) {
+   public static Personagem buscarPersonagemPorNome( String nome) {
         // Verificar nos aliados
-        for (Personagem aliado : campoDeBatalha.getAliados()) {
+        for (Personagem aliado : CampoDeBatalha.getAliados()) {
             if (aliado.getNome().equalsIgnoreCase(nome)) {
                 return aliado;
             }
         }
         
         // Verificar nos inimigos
-        for (Personagem inimigo : campoDeBatalha.getInimigos()) {
+        for (Personagem inimigo : CampoDeBatalha.getInimigos()) {
             if (inimigo.getNome().equalsIgnoreCase(nome)) {
                 return inimigo;
             }
@@ -105,31 +113,31 @@ if (palavra2.equalsIgnoreCase("boladefogo")){
     }
 
 //Método para acionar o corte laminar
-    public String chamaCorteLaminar(String agent, String target, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+    public String chamaCorteLaminar(String agent, String target, String skill) {
         Object agente;
         Object alvo;
-        agente = verificarPersonagem(agent, aliados);
-        alvo = verificarPersonagem(target, inimigos); 
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        alvo = verificarPersonagem(target, CampoDeBatalha.getInimigos()); 
         try {
             boolean verificador = verificaHabilidade((Personagem)agente, skill);
             if(verificador == true){
-                    String ataque = Habilidades.cortelaminar((Personagem)agente, (Personagem)alvo); 
+                    String ataque = Habilidades.corteLaminar((Personagem)agente, (Personagem)alvo); 
                      
                 return ataque;
             }else{
                 return "comando inválido, tente novamente";
             }
         }catch(Exception e){
-            return "deu erro tente novamente";
+            return "deu erro tente novamente".concat(e.toString());
         }
     }
 
 //Método para acionar recupera ação
-public String chamaRecuperacao(String agent, String target, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+public String chamaRecuperacao(String agent, String target, String skill) {
         Object agente;
         Object alvo;
-        agente = verificarPersonagem(agent, aliados);
-        alvo = verificarPersonagem(agent, inimigos);
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        alvo = verificarPersonagem(target,  CampoDeBatalha.getAliados());
         try {
             boolean verificador = verificaHabilidade((Personagem)agente, skill);
             if(verificador == true){
@@ -144,24 +152,86 @@ public String chamaRecuperacao(String agent, String target, String skill, ArrayL
         }
     }
 
-    public String chamaBoladefogo(String agent, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+    public String chamaBoladefogo(String agent, String skill) {
         Object agente;
         
-        agente = verificarPersonagem(agent, aliados);
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
         
         try {
             boolean verificador = verificaHabilidade((Personagem)agente, skill);
             if(verificador == true){
-                    String ataque = Habilidades.boladefogo((Personagem)agente, inimigos); 
+                    String ataque = Habilidades.bolaDeFogo((Personagem)agente, CampoDeBatalha.getInimigos()); 
                      
                 return ataque;
             }else{
                 return "comando inválido, tente novamente";
             }
         }catch(Exception e){
-            return "deu erro tente novamente";
+            return "deu erro tente novamente".concat(e.toString());
         }
     }
+
+//Método para acionar ataque brutal
+public String chamaAtaquebrutal(String agent, String target, String skill) {
+        Object agente;
+        Object alvo;
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        alvo = verificarPersonagem(target, CampoDeBatalha.getInimigos()); 
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                   
+                    String ataque = Habilidades.ataqueBrutal((Personagem)agente, (Personagem)alvo); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente".concat(e.toString());
+        }
+    }
+
+//Método para acionar fortificar
+public String chamaFortificar(String agent, String target, String skill) {
+        Object agente;
+        Object alvo;
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        alvo = verificarPersonagem(target,  CampoDeBatalha.getAliados());
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                    System.out.println("verificado");
+                    String ataque = Habilidades.fortificar((Personagem)agente, (Personagem)alvo); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente ".concat(e.toString());
+        }
+    }
+ public String chamaDrenarAtaque(String agent, String target, String skill) {
+        Object agente;
+        Object alvo;
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        alvo = verificarPersonagem(target, CampoDeBatalha.getInimigos()); 
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                   
+                    String ataque = Habilidades.drenarAtaque((Personagem)agente, (Personagem)alvo); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente".concat(e.toString());
+        }
+    }
+
 
     public String verificarAcao(String acao) {
         if (true) {
@@ -184,7 +254,7 @@ public String chamaRecuperacao(String agent, String target, String skill, ArrayL
 
     //a seguir, método chamados por uma só palavra:
     public String ajuda() {
-        return "cortelaminar:  \n boladefogo: \n recuperacao: \n Ajuda ou help: Lista todos os comandos \n Sair ou retornar: SRetorna ao menu inicial \n";
+        return "Digite sempre tudo em minúsculo e sem acentos \n usar habilidade - (agente nomedahabilidade alvo)";
     
     }
 
