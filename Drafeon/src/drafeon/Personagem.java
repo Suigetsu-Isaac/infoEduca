@@ -20,7 +20,7 @@ public class Personagem {
     // Define se o personagem é ou não jogável
     private boolean ehInimigo;
 
-    //lista de stings com o nome de três habilidades
+    //lista de stings com o nome de três habilidadess
     private ArrayList<String> habilidades; 
     
     public Personagem(String nome, int HP, int DEF, int ATK){

@@ -3,9 +3,9 @@ package drafeon;
 import java.util.ArrayList;
 
 public class Interpretador {
-
+    String mensagem = "000";
     // Método que processa a string
-    public Interpretador(String input) {
+    public Interpretador(String input, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
         String palavra1 = "";
         String palavra2 = "";
         String palavra3 = "";
@@ -43,21 +43,26 @@ public class Interpretador {
             }
 
         } else if (quantidadeDePalavras == 2) {
-
-            //chama todos os métodos chamados por duas palavras
+if (palavra2.equalsIgnoreCase("boladefogo")){
+    this.mensagem = chamaBoladefogo(palavra1, palavra2, aliados, inimigos);
+}
+            //chama todos os métodos chamados por três palavras
         } else if (quantidadeDePalavras == 3) {
-            if (palavra1 == "listar") {
-                //Object resposta = verificarPersonagem(palavra2,);
-                //if ("" == ""){
+            if (palavra2.equalsIgnoreCase("cortelaminar")) {
+                this.mensagem = chamaCorteLaminar(palavra1, palavra3, palavra2, aliados, inimigos);
+            
+            }else if (palavra2.equalsIgnoreCase("recuperacao")) {
+                this.mensagem = chamaRecuperacao(palavra1, palavra3, palavra2, aliados, inimigos);
+            
 
-                //}
-                //return listarHabilidades(personagem da palavra2);
-            }
-
-            //chama todos os métodos chamados por uma palavra
         } else {
-            //mensagem de erro
+            this.mensagem = "deu ruim";
         }
+    }
+    }
+
+    public String retornaMensagem(){
+        return this.mensagem;
     }
 
     //Método que verifica se o alvo é válido o e retorna:
@@ -99,11 +104,63 @@ public class Interpretador {
         return mensagem;
     }
 
-    public String chamacortelaminar(String alvo, String agente, String acao) {
-        
+//Método para acionar o corte laminar
+    public String chamaCorteLaminar(String agent, String target, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+        Object agente;
+        Object alvo;
+        agente = verificarPersonagem(agent, aliados);
+        alvo = verificarPersonagem(target, inimigos); 
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                    String ataque = Habilidades.cortelaminar((Personagem)agente, (Personagem)alvo); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente";
+        }
+    }
 
-        //verifica se
-        return "foi deu certo";
+//Método para acionar recupera ação
+public String chamaRecuperacao(String agent, String target, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+        Object agente;
+        Object alvo;
+        agente = verificarPersonagem(agent, aliados);
+        alvo = verificarPersonagem(agent, inimigos);
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                    String ataque = Habilidades.recuperacao((Personagem)agente, (Personagem)alvo); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente";
+        }
+    }
+
+    public String chamaBoladefogo(String agent, String skill, ArrayList<Personagem> aliados, ArrayList<Personagem> inimigos) {
+        Object agente;
+        
+        agente = verificarPersonagem(agent, aliados);
+        
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                    String ataque = Habilidades.boladefogo((Personagem)agente, inimigos); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente";
+        }
     }
 
     public String verificarAcao(String acao) {
@@ -127,7 +184,8 @@ public class Interpretador {
 
     //a seguir, método chamados por uma só palavra:
     public String ajuda() {
-        return "texto de ajuda";
+        return "cortelaminar:  \n boladefogo: \n recuperacao: \n Ajuda ou help: Lista todos os comandos \n Sair ou retornar: SRetorna ao menu inicial \n";
+    
     }
 
     public String sair() {

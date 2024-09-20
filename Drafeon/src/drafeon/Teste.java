@@ -1,7 +1,7 @@
 package drafeon;
 
 public class Teste {
-    public static void main(String[] args) {
+public static void main(String[] args) {
         CampoDeBatalha campo = new CampoDeBatalha();
 
         // Criando 8 personagens
@@ -33,16 +33,14 @@ public class Teste {
         // Criando a iniciativa e mostrando a ordem dos personagens
         Iniciativa iniciativa = new Iniciativa(campo.getAliados(), campo.getInimigos());
         iniciativa.mostrarOrdem();
-
-        //testes da classe Interpretador()
-        Interpretador interpretador = new Interpretador("guerreiro");
-        //System.out.println(interpretador.verificarPersonagem("guerreiro", campo.getAliados()));
-        //System.out.println(interpretador.verificarAcao("asfdasf"));
+        p1.adicionarHabilidade("cortelaminar");
+        p1.adicionarHabilidade("recuperacao");
+        p1.adicionarHabilidade("boladefogo");
         
-        p1.adicionarHabilidade("cortelaminar");
-        p1.adicionarHabilidade("cortelaminar");
-        p1.adicionarHabilidade("cortelaminar");
+        //Testando a classe interpretador():
+        Interpretador interpretador = new Interpretador("guerreiro boladefogo", campo.getAliados(), campo.getInimigos());
+        System.out.println(interpretador.retornaMensagem());
+        System.out.println();
         
-        System.out.println(interpretador.listarHabilidades(p1));
     }
 }
