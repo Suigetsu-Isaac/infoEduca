@@ -1,8 +1,11 @@
 package drafeon;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Jogo extends JFrame {
@@ -17,16 +20,14 @@ public class Jogo extends JFrame {
     private JTextField inputBatalha;
     private JButton botaoJogo,botaoBatalha;
     // Array de textos para serem mostrados
-private String[] textos = {
-    "<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>Três aventureiros se preparam para adentrar a perigosa masmorra antiga, prontos para buscar conhecimentos ancestrais. O robusto guerreiro, trajando uma armadura, o misterioso mago, envolto em um capuz e a valorosa clériga, vestindo robes.</p></div></html>",
-    "<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>O grupo entra nas ruínas obscuras, observando os grandes salões esculpidos em pedra com a iluminação fraca de uma tocha. Três espectros surgem, tomando a forma de um cavaleiro negro, um necromante e um feiticeiro, compostos de sombras, se posicionando ameaçadoramente.</p></div></html>",
-    "<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Conforme os aventureiros se preparam para o combate, uma voz sussurra em suas mentes: </p><p style='text-align:center;'> Voz: 'O conhecimento ancestral guardado por meu povo... apliquem-no para vencer este  desafio... a decomposição... um pilar deste conhecimento que se baseia em dividir o  problema em diferentes partes... a abstração, por outro lado, se baseia em focar no cerne do  problema... Usem este conhecimento...'</p> <p style='text-align:center;'> Com o sessar das palavras, a batalha tem início</p></div></html>"};
-
+private ArrayList<String> textos = new ArrayList<String>(); 
 // Variável para rastrear o índice do texto atual
 private int indiceTextoAtual = 0;
     public Jogo() {
          // Carregar e registrar a fonte personalizada
         carregarFontePersonalizada();
+         
+
 
         // Configurações da janela
         setTitle("JOGO");
@@ -250,35 +251,78 @@ private int indiceTextoAtual = 0;
         cardLayout.show(getContentPane(), "Principal");
     }
 
-    // tela da batalha-----------------------------------------------------------------------------------------------------
+    // tela da História-----------------------------------------------------------------------------------------------
     
      private void iniciarJogo() {
     cardLayout.show(getContentPane(), "Jogo");
-
-    // Define o texto inicial
-    textoJogo.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16)); // Aplica a fonte personalizada
-    textoJogo.setText(textos[indiceTextoAtual]);
     
-    // Adiciona o listener ao botão "Enviar"
-    botaoJogo.addActionListener(e -> {
+    textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>Três aventureiros se preparam para adentrar a perigosa masmorra antiga, prontos para buscar conhecimentos ancestrais. O robusto guerreiro, trajando uma armadura, o misterioso mago, envolto em um capuz e a valorosa clériga, vestindo robes.</p></div></html>");
+    textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>O grupo entra nas ruínas obscuras, observando os grandes salões esculpidos em pedra com a iluminação fraca de uma tocha. Três espectros surgem, tomando a forma de um cavaleiro negro, um necromante e um feiticeiro, compostos de sombras, se posicionando ameaçadoramente.</p></div></html>");
+    textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Conforme os aventureiros se preparam para o combate, uma voz sussurra em suas mentes: </p><p style='text-align:center;'> Voz: 'O conhecimento ancestral guardado por meu povo... apliquem-no para vencer este  desafio... a decomposição... um pilar deste conhecimento que se baseia em dividir o  problema em diferentes partes... a abstração, por outro lado, se baseia em focar no cerne do  problema... Usem este conhecimento...'</p> <p style='text-align:center;'> Com o sessar das palavras, a batalha tem início</p></div></html>");
+       
+
+    processarHistoria();
+
+    
+}
+     
+     private void processarHistoria(){
+         cardLayout.show(getContentPane(), "Jogo");
+         // Define o texto inicial
+            textoJogo.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16)); // Aplica a fonte personalizada
+            textoJogo.setText(textos.get(indiceTextoAtual));
+    
+            // Adiciona o listener ao botão "Enviar"
+            botaoJogo.addActionListener(e -> {
         // Verifica se ainda há mais textos para mostrar
-        if (indiceTextoAtual < textos.length - 1) {
+        if (indiceTextoAtual < textos.size() - 1) {
             indiceTextoAtual++; // Avança para o próximo texto
 
             // Atualiza o texto na tela
-            textoJogo.setText(textos[indiceTextoAtual]);
+            textoJogo.setText(textos.get(indiceTextoAtual));
         } else {
             iniciaBatalha(); // Quando todos os textos forem mostrados, vai para a tela principal
         }
     });
-
-    
-}
+   }
+     
+    // -------------------------------- O método Onde vai rolar a batalha ------------------------ 
     private void iniciaBatalha(){
         cardLayout.show(getContentPane(), "Batalha");
         textoBatalha.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16));
         textoBatalha.setText("Bora pro X1");
+        
+        
+        // O botão Enviar que vai executar a ação do interpretador
+        botaoBatalha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                processarInputBatalha();
+            }
+        });
 
+    }
+    
+    // A Saida de texto do Interpretador
+    private void processarInputBatalha() {
+        String input = inputBatalha.getText().toLowerCase();  // Converte o texto para minúsculo para facilitar comparações
+        
+        if (input.equalsIgnoreCase("proximo")){
+            
+            this.indiceTextoAtual = 0;
+            for (int i=0; i < textos.size();i++){
+                textos.remove(i);
+            }
+            textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Após a dura batalha, os aventureiros trocam olhares. A clériga cura a todos enquanto descansam ao redor de uma fogueira, quando a voz retorna: </p></div></html>");
+            textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Voz: Muito bem aventureiros, vocês dominaram os dois dos sagrados pilares do que meu povo chamou, em sua era de glória, de pensamento computacional. A decomposição e abstração, entrentanto, precisam ser aplicadas junto outros dois princípios, sendo eles o do reconhecimento de padrões e o da elaboração de algoritmos. </p></div></html>");
+            processarHistoria();
+        }else{
+           Interpretador inter = new Interpretador(input);
+        
+            textoBatalha.setText("<html> <p>" + inter.retornaMensagem() + "</p> </html>"); 
+        }
+        
+        
     }
 
                

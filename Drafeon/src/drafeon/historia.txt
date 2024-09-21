@@ -38,3 +38,4 @@ A decomposição e abstração, entrentanto, precisam
 ser aplicadas junto outros dois princípios, sendo
 eles o do reconhecimento de padrões e o da 
 elaboração de algoritmos. 
+-------------------------------------------------
