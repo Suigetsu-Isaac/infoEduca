@@ -132,7 +132,7 @@ public class Habilidades {
     //remove personagem de time
     public static String matarPersonagem(Personagem personagem){
         CampoDeBatalha.removePersonagem(personagem);
-        
+        Iniciativa.removePersonagem(personagem);
         return personagem.getNome() + " cai a 0 de HP, saindo do combate.";
     }
 

@@ -26,7 +26,6 @@ public class Iniciativa {
     }
 
     public static void removePersonagem(Personagem personagem){
-
         Iniciativa.getOrdem().remove(personagem);
     }
 

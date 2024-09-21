@@ -64,7 +64,10 @@ public class Batalha {
     }
 
     public Iniciativa geraIniciativa(){
+        Iniciativa iniciativa = new Iniciativa();
         return null;
     }
+
+    
 }
 
