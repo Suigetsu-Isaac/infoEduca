@@ -30,31 +30,79 @@ public class Habilidades {
         mensagem = "O ataque de: "+alvo.getNome()+ " foi recuperada em 2 ao custo de 1 de defesa e 1 de ataque";
         return mensagem;
     }
-
-    public static String bolaDeFogo(Personagem agente, ArrayList<Personagem> alvo){
-
-        if (agente.getATK() < 2){
-            return agente.getNome() + " não tem ataque o suficiente para ativar essa habilidade";
+    
+    public static ArrayList<Personagem> acumularPersonagensMortos(ArrayList<Personagem> alvo) {
+    ArrayList<Personagem> paraRemover = new ArrayList<>();
+    for (Personagem p : alvo) {
+        if (p.getHP() <= 0) { // Verifica se o HP é 0 ou menor
+            paraRemover.add(p);
         }
-        agente.setATK(agente.getATK() - 2);
-        String mensagem = "";
-        for (Personagem p : alvo){
-            if (p.getDEF() >= 1) {
+    }
+    return paraRemover;
+}
+
+public static String bolaDeFogo(Personagem agente, ArrayList<Personagem> alvo) {
+
+    if (agente.getATK() < 2) {
+        return agente.getNome() + " não tem ataque o suficiente para ativar essa habilidade";
+    }
+    agente.setATK(agente.getATK() - 2);
+    String mensagem = "";
+    
+    for (Personagem p : alvo) {
+        if (p.getDEF() >= 1) {
             p.setDEF(p.getDEF() - 1);
             mensagem += p.getNome() + " bloqueia gastando " + 1 + " de defesa \n";
-           
         } else if (p.getDEF() <= 0) {
             p.setHP(p.getHP() - 1);
-            if (verificaMorte(p)) mensagem += matarPersonagem(p);
-                else
             mensagem += p.getNome() + " é acertado, recebendo " + 1 + " de dano\n";
-            
         }
-           
-        }
+    }
+    
+    // Acumular e remover apenas personagens cujo HP seja 0
+    ArrayList<Personagem> paraRemover = acumularPersonagensMortos(alvo);
+    for (Personagem p : paraRemover) {
+        mensagem += matarPersonagem(p); // Chama matarPersonagem para remover da batalha
+        CampoDeBatalha.removePersonagem(p);
+        Iniciativa.removePersonagem(p);
+    }
 
-        return mensagem;
-    }     
+    return mensagem;
+}
+
+public static String bolaDeFogoDraconica(Personagem agente, ArrayList<Personagem> alvo) {
+
+    if (agente.getATK() < 2) {
+        return agente.getNome() + " não tem ataque o suficiente para ativar essa habilidade";
+    }
+    agente.setATK(agente.getATK() - 2);
+    String mensagem = "";
+    
+    for (Personagem p : alvo) {
+        if (p.getDEF() >= 2) {
+            p.setDEF(p.getDEF() - 2);
+            mensagem += p.getNome() + " bloqueia gastando " + 2 + " de defesa \n";
+        } else if (p.getDEF() == 1) {
+            p.setDEF(p.getDEF() - 1);
+            mensagem += p.getNome() + " bloqueia gastando " + 1 + " de defesa \n";
+            p.setHP(p.getHP() - 1);
+            mensagem += p.getNome() + " é acertado, recebendo " + 1 + " de dano\n";
+        } else if (p.getDEF() <= 0) {
+            p.setHP(p.getHP() - 2);
+            mensagem += p.getNome() + " é acertado, recebendo " + 2 + " de dano\n";
+        }
+    }
+    
+    // Acumular e remover apenas personagens cujo HP seja 0
+    ArrayList<Personagem> paraRemover = acumularPersonagensMortos(alvo);
+    for (Personagem p : paraRemover) {
+        mensagem += matarPersonagem(p); // Chama matarPersonagem para remover da batalha
+        CampoDeBatalha.removePersonagem(p);
+        Iniciativa.removePersonagem(p);
+    }
+
+    return mensagem;
+}
 
     public static String corteLaminar(Personagem agente, Personagem alvo) {
         //reduzir o atk do agente em 1 como custo.
@@ -134,41 +182,11 @@ public class Habilidades {
         }
 
 
-    public static String bolaDeFogoDraconica(Personagem agente, ArrayList<Personagem> alvo){
-
-        if (agente.getATK() < 2){
-            return agente.getNome() + " não tem ataque o suficiente para ativar essa habilidade";
-        }
-        agente.setATK(agente.getATK() - 2);
-        String mensagem = "";
-        for (Personagem p : alvo){
-            if (p.getDEF() >= 1) {
-            p.setDEF(p.getDEF() - 1);
-            mensagem += p.getNome() + " bloqueia gastando " + 2 + " de defesa \n";
-           
-        } else if (p.getDEF() <= 0) {
-            p.setHP(p.getHP() - 1);
-            if (verificaMorte(p)) mensagem += matarPersonagem(p);
-                else{
-                    mensagem += p.getNome() + " é acertado, recebendo " + 2 + " de dano\n";
-                }
-            
-            
-        }else if (p.getDEF() == 1) {
-            p.setHP(p.getHP() - 1);
-            if (verificaMorte(p)) mensagem += matarPersonagem(p);
-                else
-            mensagem += p.getNome() + " é acertado, recebendo " + 1 + " de dano\n";
-        }
-            
-        }
-
-        return mensagem;
-    }
+    
 
     //verifica se o personagem morreu
     public static boolean verificaMorte(Personagem personagem){
-        if(personagem.getHP() == 0){
+        if(personagem.getHP() <= 0){
             return true;
         }
         return false;

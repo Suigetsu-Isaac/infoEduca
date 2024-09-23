@@ -38,7 +38,7 @@ public class Batalha {
     public void geraInimigos(boolean ehFase1){
         Personagem inimigo1,inimigo2,inimigo3;
         if (ehFase1 ){
-        inimigo1 = new Personagem("cavaleironegro",1,5,0,true); // 5,5,5
+        inimigo1 = new Personagem("cavaleironegro",1,5,2,true); // 5,5,5
         inimigo2 = new Personagem("feiticeiro",1,5,0,true); //3,5,2
         inimigo3 = new Personagem("necromante",1,5,0,true); //3,5,4
         
@@ -55,15 +55,15 @@ public class Batalha {
         inimigo3.adicionarHabilidade("drenarataque");
         }
         else {
-            inimigo1 = new Personagem("dragao",6,9,6,true);
+            inimigo1 = new Personagem("dragao",2,9,2,true);
             inimigo1.adicionarHabilidade("boladefogodraconica");
             inimigo1.adicionarHabilidade("ataquebrutal");
             
-            inimigo2 = new Personagem("bruxa",1,3,2,true);
+            inimigo2 = new Personagem("bruxa",1,3,0,true);
             inimigo2.adicionarHabilidade("drenarataque");
             inimigo2.adicionarHabilidade("fortificar");
 
-            inimigo3 = new Personagem("feiticera",2,3,2,true);
+            inimigo3 = new Personagem("feiticera",1,3,1,true);
             inimigo3.adicionarHabilidade("drenarataque");
             inimigo3.adicionarHabilidade("boladefogo");
             }

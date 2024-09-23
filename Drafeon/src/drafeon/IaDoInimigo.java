@@ -10,31 +10,34 @@ public class IaDoInimigo {
     public IaDoInimigo(Personagem agente){
         String acao = escolheAcao(agente);
         
-        if (acao.equals("corteLaminar")){
+        if (acao.equals("cortelaminar")){
             Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
             this.mensagem =  Habilidades.corteLaminar(agente,alvo);
            
             
-        }else if (acao.equals("recuperacao")){
+        }else if (acao.equalsIgnoreCase("recuperacao")){
             Personagem alvo = escolheAlvo(CampoDeBatalha.getInimigos());
             this.mensagem =  Habilidades.recuperacao(agente, alvo);
            
-        } else if (acao.equals("corteBrutal")){
+        } else if (acao.equalsIgnoreCase("cortebrutal")){
             Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
             this.mensagem =  Habilidades.ataqueBrutal(agente, alvo);
           
         }
-            else if (acao.equals("boladefogo")){
+            else if (acao.equalsIgnoreCase("boladefogo")){
                 
                 this.mensagem =  Habilidades.bolaDeFogo(agente, CampoDeBatalha.getAliados());
                 
             }
-            else if (acao.equals("drenarataque")){
+            else if (acao.equalsIgnoreCase("boladefogodraconica")){
+                this.mensagem = Habilidades.bolaDeFogoDraconica(agente, CampoDeBatalha.getAliados());
+            }
+            else if (acao.equalsIgnoreCase("drenarataque")){
                 Personagem alvo = escolheAlvo(CampoDeBatalha.getAliados());
                 this.mensagem =  Habilidades.drenarAtaque(agente, alvo);
              
             }
-            else if (acao.equals("fortificar")){
+            else if (acao.equalsIgnoreCase("fortificar")){
                 Personagem alvo = escolheAlvo(CampoDeBatalha.getInimigos());
                 this.mensagem = Habilidades.fortificar(agente, alvo);
                
