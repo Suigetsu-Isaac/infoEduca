@@ -71,16 +71,4 @@ public class CampoDeBatalha {
             System.out.println("Posição " + (i + 1) + ": " + inimigos.get(i).getNome());
         }
     }
-    public static void main(String[] args){
-
-        Personagem p1 = new Personagem("Guerreiro", 100, 50, 30);
-        Personagem p2 = new Personagem("Mago", 70, 30, 35);
-        Personagem p3 = new Personagem("Cavaleiro", 120, 60, 20);
-        Personagem p4 = new Personagem("Assassino", 90, 45, 40);
-        Personagem p5 = new Personagem("Clérigo", 85, 35, 15);
-        Personagem p6 = new Personagem("Bárbaro", 110, 55, 25);
-        Personagem p7 = new Personagem("Paladino", 95, 50, 30);
-
-        CampoDeBatalha campo = new CampoDeBatalha(p1,p2,p3,p4,p5,p6);
-    }
 }

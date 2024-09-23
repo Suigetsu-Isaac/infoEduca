@@ -23,7 +23,7 @@ public class Personagem {
     //lista de stings com o nome de três habilidadess
     private ArrayList<String> habilidades; 
     
-    public Personagem(String nome, int HP, int ATK, int DEF){
+    public Personagem(String nome, int HP, int ATK, int DEF, boolean ehInimigo){
         this.nome = nome;
         this.HP = HP;
         this.ATK = ATK;
@@ -32,6 +32,7 @@ public class Personagem {
         this.TotalATK = ATK;
         this.totalDEF = DEF;
         this.habilidades = new ArrayList<>();
+        this.ehInimigo = ehInimigo;
     }
 
     public void adicionarHabilidade(String habilidade){
@@ -94,7 +95,13 @@ public class Personagem {
         this.habilidades = habilidades;
     }
 
-    public int verificaSetagem(int valor){
+    public int verificaSetagem(int valor){ //Esse método será substituído por uma verificação para cada set usando o valor total (ex: this.HPTotal)
+        if (this.ehInimigo == true) { 
+            if (valor < 0){
+            valor = 0;
+        }
+            return valor;
+        }
         if (valor > 3){
             valor = 3;
         }else if (valor < 0){

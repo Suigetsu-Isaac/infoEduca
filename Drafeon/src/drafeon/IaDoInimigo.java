@@ -3,10 +3,10 @@ package drafeon;
 import java.util.ArrayList;
 import java.util.Random;
 
-
 public class IaDoInimigo {
     private Random r=new Random();
     private String mensagem;
+    
     public IaDoInimigo(Personagem agente){
         String acao = escolheAcao(agente);
         
@@ -61,27 +61,5 @@ public class IaDoInimigo {
     }
     public String getMensagem(){
         return this.mensagem;
-    }
-    public  static void  main(String args[]){
-        // Criando 8 personagens
-        Personagem p1 = new Personagem("Guerreiro", 100, 50, 30);
-        Personagem p2 = new Personagem("Arqueiro", 80, 40, 25);
-        Personagem p3 = new Personagem("Mago", 70, 30, 35);
-        
-        Personagem p4 = new Personagem("Assassino", 90, 45, 40);
-        Personagem p5 = new Personagem("Clérigo", 85, 35, 15);
-        Personagem p6 = new Personagem("Bárbaro", 110, 55, 25);
-        
-        
-        CampoDeBatalha campo = new CampoDeBatalha(p1, p2, p3, p4, p5, p6);
-
-        p1.adicionarHabilidade("cortelaminar");
-        p1.adicionarHabilidade("recuperacao");
-        p1.adicionarHabilidade("boladefogo");
-        
-        IaDoInimigo ia = new IaDoInimigo(p1);
-        
-         
-        
     }
 }

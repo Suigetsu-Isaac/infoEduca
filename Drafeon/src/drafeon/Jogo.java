@@ -3,6 +3,8 @@ package drafeon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -259,8 +261,7 @@ private int indiceTextoAtual = 0;
     textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>Três aventureiros se preparam para adentrar a perigosa masmorra antiga, prontos para buscar conhecimentos ancestrais. O robusto guerreiro, trajando uma armadura, o misterioso mago, envolto em um capuz e a valorosa clériga, vestindo robes.</p></div></html>");
     textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'>O grupo entra nas ruínas obscuras, observando os grandes salões esculpidos em pedra com a iluminação fraca de uma tocha. Três espectros surgem, tomando a forma de um cavaleiro negro, um necromante e um feiticeiro, compostos de sombras, se posicionando ameaçadoramente.</p></div></html>");
     textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Conforme os aventureiros se preparam para o combate, uma voz sussurra em suas mentes: </p><p style='text-align:center;'> Voz: 'O conhecimento ancestral guardado por meu povo... apliquem-no para vencer este  desafio... a decomposição... um pilar deste conhecimento que se baseia em dividir o  problema em diferentes partes... a abstração, por outro lado, se baseia em focar no cerne do  problema... Usem este conhecimento...'</p> <p style='text-align:center;'> Com o sessar das palavras, a batalha tem início</p></div></html>");
-       
-
+    
     processarHistoria();
 
     
@@ -286,44 +287,90 @@ private int indiceTextoAtual = 0;
     });
    }
      
-    // -------------------------------- O método Onde vai rolar a batalha ------------------------ 
-    private void iniciaBatalha(){
-        cardLayout.show(getContentPane(), "Batalha");
-        textoBatalha.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16));
-        textoBatalha.setText("Bora pro X1");
-        
-        
-        // O botão Enviar que vai executar a ação do interpretador
-        botaoBatalha.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                processarInputBatalha();
-            }
-        });
+   private void iniciaBatalha() {
+    cardLayout.show(getContentPane(), "Batalha");
+    textoBatalha.setFont(obterFonte("VCR_OSD_MONO_1.001", Font.BOLD, 16));
+    textoBatalha.setText("Bora pro X1");
 
-    }
+    boolean ehFase1 = true;
+    Batalha batalha = new Batalha(ehFase1);
+    Personagem atual = Iniciativa.getAtual();
+
+    Timer timerBatalha = new Timer(1000, null); // Cria o timer sem ação inicial
+
+    botaoBatalha.addActionListener(e -> {
+        String input = inputBatalha.getText().toLowerCase(); // Processa o input do jogador
+        processarInputBatalha(input); // Processa a ação do jogador
+
+        // Após processar o input do jogador, retoma o timer para continuar o loop
+        timerBatalha.start();
+    });
     
-    // A Saida de texto do Interpretador
-    private void processarInputBatalha() {
-        String input = inputBatalha.getText().toLowerCase();  // Converte o texto para minúsculo para facilitar comparações
-        
-        if (input.equalsIgnoreCase("proximo")){
-            
-            this.indiceTextoAtual = 0;
-            for (int i=0; i < textos.size();i++){
-                textos.remove(i);
-            }
-            textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Após a dura batalha, os aventureiros trocam olhares. A clériga cura a todos enquanto descansam ao redor de uma fogueira, quando a voz retorna: </p></div></html>");
-            textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Voz: Muito bem aventureiros, vocês dominaram os dois dos sagrados pilares do que meu povo chamou, em sua era de glória, de pensamento computacional. A decomposição e abstração, entrentanto, precisam ser aplicadas junto outros dois princípios, sendo eles o do reconhecimento de padrões e o da elaboração de algoritmos. </p></div></html>");
-            processarHistoria();
-        }else{
-           Interpretador inter = new Interpretador(input);
-        
-            textoBatalha.setText("<html> <p>" + inter.retornaMensagem() + "</p> </html>"); 
+    textoBatalha.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // Retoma o turno após o jogador clicar no texto
+            timerBatalha.start();
         }
-        
-        
+    });    
+    
+    timerBatalha.addActionListener(e -> {
+        Iniciativa.proximo();
+        Personagem p = Iniciativa.getAtual();
+        System.out.println("Turno de: " + p.getNome() + " | Eh inimigo? " + p.getEhInimigo());
+
+        Habilidades habilidades = new Habilidades();
+        // Verifica se é o turno do jogador
+        if (!Iniciativa.getAtual().getEhInimigo()) {
+            // Pausa o timer para esperar a ação do jogador
+            timerBatalha.stop();  // Espera o input do jogador no listener do botão
+
+
+            String saida="<p>Turna do(a) "+p.getNome()  + " HP: "+ p.getHP() + " ATK: " + p.getATK() + "DEF: "+p.getDEF() + " Habilidades: </p>";
+           
+            for (String s : p.getHabilidades()){
+                saida+= "<p>" + s + ":" +habilidades.geraDescricao(s)+". </p>";
+            }
+            
+            saida += "<br> <p>  Inimigos: ";
+            for (Personagem inimigo : CampoDeBatalha.getInimigos()){
+                saida += ""+inimigo.getNome()+" ";
+            }
+            saida += "</p>";
+            
+            textoBatalha.setText("<html>"+saida+"</html>");
+        } else {
+            // IA do inimigo age
+            IaDoInimigo agir = new IaDoInimigo(Iniciativa.getAtual());
+            textoBatalha.setText("<html><p>" + agir.getMensagem() + "</p></html>");
+            timerBatalha.stop();
+        }
+
+        // Verifica se a batalha acabou
+        if (CampoDeBatalha.getAliados().isEmpty() || CampoDeBatalha.getInimigos().isEmpty()) {
+            ((Timer) e.getSource()).stop();  // Para o timer quando a batalha termina
+            textoBatalha.setText("A batalha terminou!");
+
+            // Limpa os textos e adiciona novos após a batalha
+            textos.clear();
+            textos.add("<html><div style='margin: 0 auto; display:block;'><p style='text-align:center;'> Após a dura batalha, os aventureiros trocam olhares...</p></div></html>");
+            processarHistoria(); // Retorna para o fluxo de história
+        }
+    });
+
+    timerBatalha.start(); // Inicia o timer para processar a batalha
+}
+
+// Processa o input do jogador
+private void processarInputBatalha(String input) {
+    try {
+        Interpretador inter = new Interpretador(input);
+        textoBatalha.setText("<html><p>" + inter.retornaMensagem() + "</p></html>");
+    } catch (Exception e) {
+        System.out.println("Erro ao processar input: " + e.getMessage());
     }
+}
+    
 
                
     private Font obterFonte(String nomeFonte, int estilo, int tamanho) {

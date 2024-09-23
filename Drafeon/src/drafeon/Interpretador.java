@@ -45,6 +45,8 @@ public class Interpretador {
         } else if (quantidadeDePalavras == 2) {
 if (palavra2.equalsIgnoreCase("boladefogo")){
     this.mensagem = chamaBoladefogo(palavra1, palavra2);
+} else if (palavra2.equalsIgnoreCase("boladefogodraconica")){
+    this.mensagem = chamaBoladefogoDraconica(palavra1, palavra2);
 }
             //chama todos os métodos chamados por três palavras
         } else if (quantidadeDePalavras == 3) {
@@ -171,6 +173,27 @@ public String chamaRecuperacao(String agent, String target, String skill) {
         }
     }
 
+//Método para acionar bola de fogo draconica
+public String chamaBoladefogoDraconica(String agent, String skill) {
+        Object agente;
+        
+        agente = verificarPersonagem(agent, CampoDeBatalha.getAliados());
+        
+        try {
+            boolean verificador = verificaHabilidade((Personagem)agente, skill);
+            if(verificador == true){
+                    String ataque = Habilidades.bolaDeFogo((Personagem)agente, CampoDeBatalha.getInimigos()); 
+                     
+                return ataque;
+            }else{
+                return "comando inválido, tente novamente";
+            }
+        }catch(Exception e){
+            return "deu erro tente novamente".concat(e.toString());
+        }
+    }
+
+
 //Método para acionar ataque brutal
 public String chamaAtaquebrutal(String agent, String target, String skill) {
         Object agente;
@@ -251,6 +274,7 @@ public String chamaFortificar(String agent, String target, String skill) {
         return false; // Se chegou até aqui, a habilidade não foi encontrada
     }
 
+//Método para
 
     //a seguir, método chamados por uma só palavra:
     public String ajuda() {

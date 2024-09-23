@@ -1,6 +1,7 @@
 package drafeon;
 
 import java.util.ArrayList;
+import javax.swing.plaf.synth.SynthViewportUI;
 
 public class Habilidades {
  
@@ -44,10 +45,12 @@ public class Habilidades {
            
         } else if (p.getDEF() <= 0) {
             p.setHP(p.getHP() - 1);
+            if (verificaMorte(p)) mensagem += matarPersonagem(p);
+                else
             mensagem += p.getNome() + " é acertado, recebendo " + 1 + " de dano\n";
             
         }
-            
+           
         }
 
         return mensagem;
@@ -66,10 +69,14 @@ public class Habilidades {
             if (alvo.getDEF() < 0) {
                 alvo.setHP(alvo.getHP() - 1);
                 alvo.setDEF(0);
+                if (verificaMorte(alvo)) mensagem = matarPersonagem(alvo);
+                else
                 mensagem = alvo.getNome() + " é acertado, recebendo " + 1 + " de dano ao seu HP";
             }
         } else if (alvo.getDEF() <= 0) {
             alvo.setHP(alvo.getHP() - 2);
+            if (verificaMorte(alvo)) mensagem = matarPersonagem(alvo);
+                else
             mensagem = alvo.getNome() + " é acertado, recebendo " + 2 + " de dano";
         }
         return mensagem;
@@ -91,6 +98,8 @@ public class Habilidades {
 
             if (diferenca == 3) {
                 alvo.setHP(alvo.getHP() - 3);
+                if (verificaMorte(alvo)) mensagem = matarPersonagem(alvo);
+                else
                 mensagem = alvo.getNome() + " é acertado, recebendo " + 3 + " de dano ao seu HP";
   
             }
@@ -98,6 +107,8 @@ public class Habilidades {
             alvo.setDEF(alvo.getDEF() - (3 - diferenca));
             mensagem = alvo.getNome() + " bloqueia gastando " + (3 - diferenca)+ " de defesa \n";
             alvo.setHP(alvo.getHP() - diferenca);
+            if (verificaMorte(alvo)) matarPersonagem(alvo);
+                else
             mensagem += alvo.getNome() + " é acertado, recebendo " + diferenca + " de dano ao seu HP";
             }
         } else {
@@ -122,7 +133,40 @@ public class Habilidades {
             return alvo.getNome() + " foi drenado, diminuindo 1 de ataque e "+ agente.getNome() +" ataque aumentou em 1";
         }
 
-    //veridica se o personagem morreu
+
+    public static String bolaDeFogoDraconica(Personagem agente, ArrayList<Personagem> alvo){
+
+        if (agente.getATK() < 2){
+            return agente.getNome() + " não tem ataque o suficiente para ativar essa habilidade";
+        }
+        agente.setATK(agente.getATK() - 2);
+        String mensagem = "";
+        for (Personagem p : alvo){
+            if (p.getDEF() >= 1) {
+            p.setDEF(p.getDEF() - 1);
+            mensagem += p.getNome() + " bloqueia gastando " + 2 + " de defesa \n";
+           
+        } else if (p.getDEF() <= 0) {
+            p.setHP(p.getHP() - 1);
+            if (verificaMorte(p)) mensagem += matarPersonagem(p);
+                else{
+                    mensagem += p.getNome() + " é acertado, recebendo " + 2 + " de dano\n";
+                }
+            
+            
+        }else if (p.getDEF() == 1) {
+            p.setHP(p.getHP() - 1);
+            if (verificaMorte(p)) mensagem += matarPersonagem(p);
+                else
+            mensagem += p.getNome() + " é acertado, recebendo " + 1 + " de dano\n";
+        }
+            
+        }
+
+        return mensagem;
+    }
+
+    //verifica se o personagem morreu
     public static boolean verificaMorte(Personagem personagem){
         if(personagem.getHP() == 0){
             return true;
@@ -134,6 +178,21 @@ public class Habilidades {
         CampoDeBatalha.removePersonagem(personagem);
         Iniciativa.removePersonagem(personagem);
         return personagem.getNome() + " cai a 0 de HP, saindo do combate.";
+    }
+
+    public String geraDescricao(String habilidade){
+        
+        String descricao = switch (habilidade) {
+            case "recuperacao" -> recuperarDescricao();
+            case "cortelaminar" -> corteLaminarDesc();
+            case "boladefogo" -> boladefogoDesc();
+            case "fortificar" -> fortificarDesc();
+            case "ataquebrutal" -> ataqueBrutalDesc();
+            case "drenarataque" -> drenarAtaqueDesc();
+            case "boladefogodraconica" -> bolaDefogoDraconicaDesc();
+            default -> "habilidade incorreta";
+        };
+        return descricao;
     }
 
     public String recuperarDescricao(){
@@ -161,6 +220,9 @@ public class Habilidades {
     public String drenarAtaqueDesc(){
         return "Drena a habilidade o poder de um alvo, removendo 1 ATK dele e recuperando 1 de ATK para si. Custo: 2 de defesa";
     
+    }
+    public String bolaDefogoDraconicaDesc(){
+        return "Conjura uma enorme bola flamejante, causando 2 de dano em todos os inimigos. Custo: 2 de ataque";
     }
     
     //public String reviverDesc(){
